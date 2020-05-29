@@ -1,6 +1,6 @@
 # JavaScript Homework - JavaScript and DOM Manipulation
 
-### Level 1: Automatic Table and Date Search
+### 1. Basic: Automatic Table and Date Search
 
 * Created a basic HTML web page .
 
@@ -10,7 +10,7 @@
 
 - - -
 
-### Bonus : Multiple Search Categories
+### 2. Bonus : Multiple Search Categories
 
 * Create five `input` tags (all done in Javascript)
   1. `date/time`
@@ -23,7 +23,7 @@
 
 - - -
 
-### Bonus-Plus : Add dropdowns to all input filds
+### 3. Bonus-Plus : Add dropdowns to all input filds
 
 * Modify Data
 
@@ -40,7 +40,7 @@
 
 - - -
 
-### Bonus-Final : Update dropdowns to all input filds
+### 4. Bonus-Final : Update dropdowns to all input filds
 
 * Update dropdown menu of all input fields as you enter a value in one input.
 
