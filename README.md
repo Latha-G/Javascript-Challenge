@@ -40,7 +40,7 @@
 
 - - -
 
-### Bonus-PlusFinal : Update dropdowns to all input filds
+### Bonus-Final : Update dropdowns to all input filds
 
 * Update dropdown menu of all input fields as you enter a value in one input.
 
