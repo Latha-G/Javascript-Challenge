@@ -1,4 +1,23 @@
+/* ------------------------------------------------------ */
+
 var sightingsData = data; // from data.js/*
+
+/* ------------------------------------------------------ */
+
+// Clean up data
+transformData(sightingsData);
+
+// Build the table using original data when page loads
+buildTable(sightingsData);
+
+// Find distinct values for each key
+findDistinct(sightingsData);
+
+// Add Input-fields for all the keys and dropdown for distinct values
+createDropdown(distinctData);
+
+// Attach an event listener for changes in any filter
+d3.selectAll('.filter').on('change', updateFilters)
 
 /* ------------------------------------------------------ */
 
@@ -25,7 +44,6 @@ function titleCase(string) {
 
 /* ------------------------------------------------------ */
  
-
 function transformData(data){
 
     data.forEach(sighting => {
@@ -73,73 +91,76 @@ function buildTable(data){
             newtd.text(value);
         }); 
     });
-}
-
-/* ------------------------------------------------------ */
-
-function findDistinct(data) {
-
-    var distinct_dict = { 'country': [],
-                          'state': [],
-                          'city': [],
-                          'date': [],
-                          'shape': []
-                        };
-
-    data.forEach(sighting => {
-        Object.entries(sighting).forEach( ([key, value]) => {       
-            if (distinct_dict[key] && ! distinct_dict[key].includes(value)){
-                distinct_dict[key].push(value);
-            }
-        })
-    });
-
-    // sorting in alphatical order for dropdown menu
-    Object.keys(distinct_dict).forEach(key => {
-        distinct_dict[key].sort();
-    });
-
-    console.log("Updated distinct_dict:", distinct_dict);
-
-    return distinct_dict;
 };
 
 /* ------------------------------------------------------ */
 
-function createDropdown(key) {
+var distinctData = {};
 
-    let ul = d3.select("#filters");
+function findDistinct(data) {
 
-    // Create a new li and assign attributes to it
-    let newLi = ul.append('li');
-    newLi.attr('class', 'filter list-group-item');
+    distinctData = { 'country': [],
+                     'state': [],
+                     'city': [],
+                     'date': [],
+                     'shape': []
+                    };
 
-    // Creating a new label and assigning attributes to it 
-    let newLabel = newLi.append('label');
-    newLabel.text("Enter a " + capitalize(key));
-    newLabel.attr('for', key);
+    data.forEach(sighting => {
+        Object.entries(sighting).forEach( ([key, value]) => {       
+            if (distinctData[key] && ! distinctData[key].includes(value)){
+                distinctData[key].push(value);
+            }
+        })
+    });
 
-    // Creating a new input and assigning attributes to it
-    let newSelect = newLi.append('select')
-    newSelect.attr('class', 'form-control');
-    newSelect.attr('id', key);
-    newSelect.attr('type', 'text');
+    // sorting the distinct values in alphatical order for dropdown menu
+    Object.keys(distinctData).forEach(key => {
+        distinctData[key].sort();
+    });
 
-    // Adding a 'optgroup' to wrap the dropdown options(to apply styles)
-    let newOptgroup = newSelect.append('optgroup');
-    newOptgroup.attr('class', `${key}_options`);
+    //console.log("Updated distinctData:", distinctData);
+};
 
-    // Creating a dropdown menu
-    let newOption = newOptgroup.append('option');
-    newOption.attr('value', "")
-    newOption.text("Choose a " + capitalize(key));
-    
-   // Lopping thru the distinct values of each key and adding them to dropdown menu
-    distinct[key].forEach(value => {
-        newOption = newOptgroup.append('option');
-        newOption.attr('value', value)
-        newOption.text(value);
+/* ------------------------------------------------------ */
 
+function createDropdown(data) {
+
+    Object.entries(data).forEach( ([key, values]) => {
+
+        let ul = d3.select("#filters");
+
+        // Create a new li and assign attributes to it
+        let newLi = ul.append('li');
+        newLi.attr('class', 'filter list-group-item');
+
+        // Creating a new label and assigning attributes to it 
+        let newLabel = newLi.append('label');
+        newLabel.text("Enter a " + capitalize(key));
+        newLabel.attr('for', key);
+
+        // Creating a new input and assigning attributes to it
+        let newSelect = newLi.append('select')
+        newSelect.attr('class', 'form-control');
+        newSelect.attr('id', key);
+        newSelect.attr('type', 'text');
+
+        // Adding a 'optgroup' to wrap the dropdown options(to apply styles)
+        let newOptgroup = newSelect.append('optgroup');
+        newOptgroup.attr('class', `${key}_options`);
+
+        // Creating a dropdown menu
+        let newOption = newOptgroup.append('option');
+        newOption.attr('value', "")
+        newOption.text("Choose a " + capitalize(key));
+        
+        // Lopping thru the distinct values of each key and adding them to dropdown menu
+        values.forEach(value => {
+            newOption = newOptgroup.append('option');
+            newOption.attr('value', value)
+            newOption.text(value);
+
+        });
     });
 
 };
@@ -148,9 +169,9 @@ function createDropdown(key) {
 
 function updateDropdown(data) {
 
-    var distinctFiltereddata = findDistinct(data);
+    findDistinct(data);
 
-    Object.entries(distinctFiltereddata).forEach( ([key,values]) => {
+    Object.entries(distinctData).forEach( ([key,values]) => {
         
         let optGroup = d3.select(`.${key}_options`)
         optGroup.html("");
@@ -187,8 +208,7 @@ function updateFilters() {
     var elementValue = changedElement.property('value');
     var filterId = changedElement.attr('id');
 
-    console.log(changedElement);
-    //console.log("Filter applied:", capitalize(filterId), ":", elementValue);
+    //console.log(changedElement);
 
     // If a filter value was entered add that filterId and value to filters array.
     // Otherwise clear that filter from filters array.
@@ -198,10 +218,10 @@ function updateFilters() {
     else {
         delete filters[filterId];
     }
-    console.log('Filters applied');
+    console.log('\nFilters applied:');
 
     Object.entries(filters).forEach(([key,value]) => {
-        console.log(key,value);
+        console.log(capitalize(key) + ":" + value);
     });
 
     filterTable();
@@ -225,22 +245,5 @@ function filterTable() {
     });
 
 };
-
-/* ------------------------------------------------------ */
-
-// Clean up data
-transformData(sightingsData);
-
-// Build the table using original data when page loads
-buildTable(sightingsData);
-
-// Find distinct values for each key
-var distinct = findDistinct(sightingsData);
-
-// Add Input-fields for all the keys and dropdown for distinct values
-Object.keys(distinct).forEach(key => createDropdown(key));
-
-// Attach an event listener for changes in any filter
-d3.selectAll('.filter').on('change', updateFilters);
 
 /* ------------------------------------------------------ */
