@@ -79,10 +79,10 @@ function buildTable(data){
 
 function findDistinct(data) {
 
-    var distinct_dict = { 'date': [],
-                          'city': [],
+    var distinct_dict = { 'country': [],
                           'state': [],
-                          'country': [],
+                          'city': [],
+                          'date': [],
                           'shape': []
                         };
 
