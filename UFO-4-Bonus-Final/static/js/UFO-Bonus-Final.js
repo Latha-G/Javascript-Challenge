@@ -150,24 +150,23 @@ function updateDropdown(data) {
 
     var distinctFiltereddata = findDistinct(data);
 
-    Object.keys(distinctFiltereddata).forEach( (key) => {
+    Object.entries(distinctFiltereddata).forEach( ([key,values]) => {
         
         let optGroup = d3.select(`.${key}_options`)
         optGroup.html("");
-        //console.log("selected optgroup:", optGroup);
 
         let newOption = optGroup.append('option');
         newOption.attr('value', "")
         newOption.text("Choose a " + capitalize(key));
 
-        distinctFiltereddata[key].forEach(value => {
+        values.forEach(value => {
             newOption = optGroup.append('option');
             newOption.attr('value', value)
-            newOption.text(value);
+            newOption.text(value);   
         });
     });
 
-    // Displaying selected option in the respective input field
+    // Displaying selected option in its input field
     Object.entries(filters).forEach(([key,value]) => {
         let optgroup = d3.select(`.${key}_options`);
         optgroup.html("");
