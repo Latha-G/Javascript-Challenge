@@ -31,16 +31,6 @@
 - - -
 
 ### 3. Bonus-Plus : Add dropdowns to all input filds
-<<<<<<< HEAD
-=======
-
-* Modify Data
-
-  1. City - Titlecase
-  2. State, Country - Uppercase
-  3. Shape - Capitalize
-  4. Comments - replaced few unnecessary strings.
->>>>>>> cbf3e40b09c5025ad319e0b04dc29d32c2d4a773
 
 * Find distinct values for all input fields
 
