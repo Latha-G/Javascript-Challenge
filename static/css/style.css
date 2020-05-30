@@ -10,6 +10,13 @@ body {
   margin: 0;
 }
 
+optgroup { 
+  font-size: 3px;
+}
+
+.table {
+  font-size: 14px;
+}
 /* The wrapper contains all of the page's content besides the footer, which is pushed to the bottom of the page */
 .wrapper {
   position: relative;
@@ -74,7 +81,7 @@ select {
 }
 
 #table-area th {
-  text-align: center;
+  text-align: left;
 }
 
 #table-area th:first-child,
@@ -141,11 +148,17 @@ select {
 /* media queries which will only be activated at specific screen sizes */
 @media (max-width: 800px) {
   #table-area td {
-    font-size: 1em;
+    font-size: 1.4em;
+  }
+  .table {
+    font-size: 10px;
   }
 }
 
 @media (max-width: 500px) {
+  .table {
+    font-size: 10px;
+  }
   #table-area thead {
     display: none;
   }
@@ -170,7 +183,7 @@ select {
   }
 
   #table-area td {
-    font-size: 1.25em;
+    font-size: 1.4em;
   }
 
   #table-area tbody td {

@@ -73,7 +73,7 @@ function buildTable(data){
             newtd.text(value);
         }); 
     });
-}
+};
 
 /* ------------------------------------------------------ */
 
@@ -106,8 +106,6 @@ function findDistinct(data) {
 
 /* ------------------------------------------------------ */
 
-var optId_dict = {};
-
 function createDropdown(key) {
 
     let ul = d3.select("#filters");
@@ -128,12 +126,8 @@ function createDropdown(key) {
     newSelect.attr('type', 'text');
 
     // Adding a 'optgroup' to wrap the dropdown options(to apply styles)
-
     let newOptgroup = newSelect.append('optgroup');
-    optid = "opt" + key;
-    newOptgroup.attr('class', 'optgroup');
-    newOptgroup.attr('id', optid);
-    optId_dict[key] = optid;
+    newOptgroup.attr('class', `${key}_options`);
 
     // Creating a dropdown menu
     let newOption = newOptgroup.append('option');
@@ -143,11 +137,11 @@ function createDropdown(key) {
    // Lopping thru the distinct values of each key and adding them to dropdown menu
     distinct[key].forEach(value => {
         newOption = newOptgroup.append('option');
-        newOption.attr('class', 'option');
-        newOption.attr('value', value);
+        newOption.attr('value', value)
         newOption.text(value);
 
     });
+
 };
 
 /* ------------------------------------------------------ */
@@ -156,25 +150,31 @@ function updateDropdown(data) {
 
     var distinctFiltereddata = findDistinct(data);
 
-    Object.entries(optId_dict).forEach( ([key,value]) => {
+    Object.keys(distinctFiltereddata).forEach( (key) => {
         
-        var optGroup = d3.select(`#${value}`)
+        let optGroup = d3.select(`.${key}_options`)
         optGroup.html("");
+        //console.log("selected optgroup:", optGroup);
 
-        // starting dropdown menu
         let newOption = optGroup.append('option');
         newOption.attr('value', "")
-        newOption.text("Choose an " + capitalize(key));
+        newOption.text("Choose a " + capitalize(key));
 
         distinctFiltereddata[key].forEach(value => {
             newOption = optGroup.append('option');
             newOption.attr('value', value)
             newOption.text(value);
-
         });
+    });
+
+    // Displaying selected option in the respective input field
+    Object.entries(filters).forEach(([key,value]) => {
+        let optgroup = d3.select(`.${key}_options`);
+        optgroup.html("");
+        newOption = optgroup.append('option');
+        newOption.text(value);
 
     });
-    
 };
 
 /* ------------------------------------------------------ */
@@ -188,8 +188,8 @@ function updateFilters() {
     var elementValue = changedElement.property('value');
     var filterId = changedElement.attr('id');
 
-    console.log("Current Filter: ");
-    console.log(capitalize(filterId), ":", elementValue);
+    console.log(changedElement);
+    //console.log("Filter applied:", capitalize(filterId), ":", elementValue);
 
     // If a filter value was entered add that filterId and value to filters array.
     // Otherwise clear that filter from filters array.
@@ -199,9 +199,11 @@ function updateFilters() {
     else {
         delete filters[filterId];
     }
+    console.log('Filters applied');
 
-    console.log("All Filters: ");
-    console.log(Object.entries(filters));
+    Object.entries(filters).forEach(([key,value]) => {
+        console.log(key,value);
+    });
 
     filterTable();
 };
@@ -243,28 +245,3 @@ Object.keys(distinct).forEach(key => createDropdown(key));
 d3.selectAll('.filter').on('change', updateFilters)
 
 /* ------------------------------------------------------ */
-
-
-
-
-
-
-/*
-
-const distinctDates = [...new Set(sightingsData.map(x => x.datetime))]
-
-const distinctCities = [...new Set(sightingsData.map(x => x.city))]
-
-const distinctStates = [...new Set(sightingsData.map(x => x.state))]
-
-const distinctCountries = [...new Set(sightingsData.map(x => x.country))]
-
-const distinctShapes = [...new Set(sightingsData.map(x => x.shape))]
-
-console.log("Distinct Dates: ", distinctDates);
-console.log("Distinct Cities: ", distinctCities);
-console.log("Distinct States: ", distinctStates);
-console.log("Distinct Countries: ", distinctCountries);
-console.log("Distinct Shapes: ", distinctShapes);
-
-*/

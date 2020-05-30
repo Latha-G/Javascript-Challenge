@@ -2,7 +2,14 @@
 
 ### 1. Basic: Automatic Table and Date Search
 
-* Created a basic HTML web page .
+* Modify Data
+
+  1. City - Titlecase
+  2. State & Country - Uppercase
+  3. Shape - Capitalize
+  4. Comments - Replace unnecessary strings.
+
+* Create a basic HTML web page .
 
 * Use the UFO dataset provided in the form of an array of JavaScript objects, write code that appends a table to the web page and then adds new rows of data for each UFO sighting.
 
@@ -25,13 +32,6 @@
 
 ### 3. Bonus-Plus : Add dropdowns to all input filds
 
-* Modify Data
-
-  1. City - Titlecase
-  2. State, Country - Uppercase
-  3. Shape - Capitalize
-  4. Comments - replaced few unnecessary strings.
-
 * Find distinct values for all input fields
 
 * Sort the distinct values
@@ -42,7 +42,7 @@
 
 ### 4. Bonus-Final : Update dropdowns to all input filds
 
-* Update dropdown menu of all input fields as you enter a value in one input.
+* Update dropdown menu of ALL input fields as you enter a value in one input.
 
 - - -
 
