@@ -1,5 +1,5 @@
 # JavaScript and DOM Manipulation
-You cane see my work at:
+
 https://latha-g.github.io/Javascript-Challenge/
 
 ### 1. Basic: Automatic Table and Date Search
