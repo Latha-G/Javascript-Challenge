@@ -40,11 +40,7 @@ https://latha-g.github.io/Javascript-Challenge/
 
 * Add dropdowns with sorted distinct values for all input fields
 
-- - -
-
-### 4. Bonus-Final : Update dropdowns to all input filds
-
-* Update dropdown menu of ALL input fields as you enter a value in one input.
+* Update dropdown menu of other input fields as you enter a filter.
 
 - - -
 

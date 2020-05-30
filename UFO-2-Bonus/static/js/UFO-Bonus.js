@@ -97,7 +97,7 @@ function filterTable() {
 buildTable(sightingsData);
 
 // keys to add Input-fields
-var keys = ['date', 'city', 'state', 'country', 'shape'];
+var keys = ['country', 'state', 'city', 'date', 'shape'];
 keys.forEach(key => addInput(key));
 
 // Attach an event listener for changes in any filter

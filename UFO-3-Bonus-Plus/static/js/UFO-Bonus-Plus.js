@@ -8,13 +8,18 @@ function capitalize(string){
 
 /* ------------------------------------------------------ */
 
-function titleCase(str) {
-    var splitStr = str.toLowerCase().split(' ');
+function titleCase(string) {
+
+    // Convert the string to lowercase and split at space
+    var splitStr = string.toLowerCase().split(' ');
+
+    // Loop thru all the words
     for (var i = 0; i < splitStr.length; i++) {
-        // Assign it back to the array
+        // Change 1st letter of each word to uppercase and assign it back to the array
         splitStr[i] = splitStr[i].charAt(0).toUpperCase() + splitStr[i].substring(1);     
     }
-    // Directly return the joined string
+
+    // Return the joined string
     return splitStr.join(' '); 
  }
 
@@ -49,7 +54,6 @@ function transformData(data){
     console.log(data);
 }
  
-
 /* ------------------------------------------------------ */
 
 function buildTable(data){
@@ -69,16 +73,16 @@ function buildTable(data){
             newtd.text(value);
         }); 
     });
-}
+};
 
 /* ------------------------------------------------------ */
 
 function findDistinct(data) {
 
-    var distinct_dict = { 'date': [],
-                          'city': [],
+    var distinct_dict = { 'country': [],
                           'state': [],
-                          'country': [],
+                          'city': [],
+                          'date': [],
                           'shape': []
                         };
 
@@ -123,9 +127,7 @@ function createDropdown(key) {
 
     // Adding a 'optgroup' to wrap the dropdown options(to apply styles)
     let newOptgroup = newSelect.append('optgroup');
-    optid = "opt" + key
-    newOptgroup.attr('class', 'options');
-    newOptgroup.attr('id', optid);
+    newOptgroup.attr('class', `${key}_options`);
 
     // Creating a dropdown menu
     let newOption = newOptgroup.append('option');
@@ -137,6 +139,40 @@ function createDropdown(key) {
         newOption = newOptgroup.append('option');
         newOption.attr('value', value)
         newOption.text(value);
+
+    });
+
+};
+
+/* ------------------------------------------------------ */
+
+function updateDropdown(data) {
+
+    var distinctFiltereddata = findDistinct(data);
+
+    Object.entries(distinctFiltereddata).forEach( ([key,values]) => {
+        
+        let optGroup = d3.select(`.${key}_options`)
+        optGroup.html("");
+
+        let newOption = optGroup.append('option');
+        newOption.attr('value', "")
+        newOption.text("Choose a " + capitalize(key));
+
+        values.forEach(value => {
+            newOption = optGroup.append('option');
+            newOption.attr('value', value)
+            newOption.text(value);   
+        });
+    });
+
+    // Displaying selected option in its input field
+    Object.entries(filters).forEach(([key,value]) => {
+        let optgroup = d3.select(`.${key}_options`);
+        optgroup.html("");
+        newOption = optgroup.append('option');
+        newOption.text(value);
+
     });
 };
 
@@ -152,7 +188,7 @@ function updateFilters() {
     var filterId = changedElement.attr('id');
 
     console.log(changedElement);
-    console.log("Filter applied:", capitalize(filterId), ":", elementValue);
+    //console.log("Filter applied:", capitalize(filterId), ":", elementValue);
 
     // If a filter value was entered add that filterId and value to filters array.
     // Otherwise clear that filter from filters array.
@@ -162,8 +198,11 @@ function updateFilters() {
     else {
         delete filters[filterId];
     }
+    console.log('Filters applied');
 
-    console.log(Object.entries(filters));
+    Object.entries(filters).forEach(([key,value]) => {
+        console.log(key,value);
+    });
 
     filterTable();
 };
@@ -176,12 +215,15 @@ function filterTable() {
 
     // Loop through the filters and keep the data that matches the filter values
     Object.entries(filters).forEach(([key,value])  => {
-        filteredData = filteredData.filter(row => row[key]==value);
+        filteredData = filteredData.filter( row => row[key] == value );
     
         // Rebuild the table using filtered data
         buildTable(filteredData);
 
+        updateDropdown(filteredData);
+
     });
+
 };
 
 /* ------------------------------------------------------ */
@@ -195,7 +237,7 @@ buildTable(sightingsData);
 // Find distinct values for each key
 var distinct = findDistinct(sightingsData);
 
-// Add Input-fields for all the keys and create dropdown for all distinct values
+// Add Input-fields for all the keys and dropdown for distinct values
 Object.keys(distinct).forEach(key => createDropdown(key));
 
 // Attach an event listener for changes in any filter
