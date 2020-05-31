@@ -6,10 +6,11 @@ https://latha-g.github.io/Javascript-Challenge/
 
 * Modify Data
 
-  1. City - Titlecase
-  2. State & Country - Uppercase
-  3. Shape - Capitalize
-  4. Comments - Remove unnecessary strings.
+  1. Country - Uppercase
+  2. State - Uppercase
+  3. City - Titlecase
+  4. Shape - Capitalize
+  5. Comments - Remove unnecessary strings.
 
 * Create a basic HTML web page .
 
@@ -22,11 +23,11 @@ https://latha-g.github.io/Javascript-Challenge/
 ### 2. Bonus : Multiple Search Categories
 
 * Create five `input` tags (all done in Javascript)
-  1. `country`
-  2. `state`
-  3. `city`
-  4. `date/time`
-  5. `shape`
+  1. `Country`
+  2. `State`
+  3. `City`
+  4. `Date`
+  5. `Shape`
 
 * Used 'keyup' instead of change so that data will be filtered as you type
 
