@@ -34,7 +34,7 @@ function titleCase(string) {
 
     // Loop thru all the words
     for (var i = 0; i < splitStr.length; i++) {
-        // Change 1st letter of each word to uppercase and assign it back to the array
+        // Change 1st letter of each word to uppercase & assign it back to the array
         splitStr[i] = splitStr[i].charAt(0).toUpperCase() + splitStr[i].substring(1);     
     }
 
@@ -87,8 +87,8 @@ function buildTable(data){
         const newrow = tbody.append('tr');
 
         Object.values(record).forEach(value => {
-            let newtd = newrow.append('td');
-            newtd.text(value);
+            let newtd = newrow.append('td')
+                              .text(value);
         }); 
     });
 };
@@ -115,11 +115,7 @@ function findDistinct(data) {
     });
 
     // sorting the distinct values in alphatical order for dropdown menu
-    Object.keys(distinctData).forEach(key => {
-        distinctData[key].sort();
-    });
-
-    //console.log("Updated distinctData:", distinctData);
+    Object.keys(distinctData).forEach(key => {distinctData[key].sort()});
 };
 
 /* ------------------------------------------------------ */
@@ -131,35 +127,33 @@ function createDropdown(data) {
         let ul = d3.select("#filters");
 
         // Create a new li and assign attributes to it
-        let newLi = ul.append('li');
-        newLi.attr('class', 'filter list-group-item');
+        let newLi = ul.append('li').attr('class', 'filter list-group-item');
 
         // Creating a new label and assigning attributes to it 
-        let newLabel = newLi.append('label');
-        newLabel.text("Enter a " + capitalize(key));
-        newLabel.attr('for', key);
+        let newLabel = newLi.append('label')
+                            .text("Enter a " + capitalize(key))
+                            .attr('for', key);
 
         // Creating a new input and assigning attributes to it
         let newSelect = newLi.append('select')
-        newSelect.attr('class', 'form-control');
-        newSelect.attr('id', key);
-        newSelect.attr('type', 'text');
+                             .attr('class', 'form-control')
+                             .attr('id', key)
+                             .attr('type', 'text');
 
         // Adding a 'optgroup' to wrap the dropdown options(to apply styles)
-        let newOptgroup = newSelect.append('optgroup');
-        newOptgroup.attr('class', `${key}_options`);
+        let newOptgroup = newSelect.append('optgroup')
+                                   .attr('class', `${key}_options`);
 
         // Creating a dropdown menu
-        let newOption = newOptgroup.append('option');
-        newOption.attr('value', "")
-        newOption.text("Choose a " + capitalize(key));
+        let newOption = newOptgroup.append('option')
+                                   .attr('value', "")
+                                   .text("Choose a " + capitalize(key));
         
         // Lopping thru the distinct values of each key and adding them to dropdown menu
         values.forEach(value => {
-            newOption = newOptgroup.append('option');
-            newOption.attr('value', value)
-            newOption.text(value);
-
+            newOption = newOptgroup.append('option')
+                                   .attr('value', value)
+                                   .text(value);
         });
     });
 
@@ -174,26 +168,25 @@ function updateDropdown(data) {
     Object.entries(distinctData).forEach( ([key,values]) => {
         
         let optGroup = d3.select(`.${key}_options`)
-        optGroup.html("");
+                         .html("");
 
-        let newOption = optGroup.append('option');
-        newOption.attr('value', "")
-        newOption.text("Choose a " + capitalize(key));
+        let newOption = optGroup.append('option')
+                                .attr('value', "")
+                                .text("Choose a " + capitalize(key));
 
         values.forEach(value => {
-            newOption = optGroup.append('option');
-            newOption.attr('value', value)
-            newOption.text(value);   
+            newOption = optGroup.append('option')
+                                .attr('value', value)
+                                .text(value);   
         });
     });
 
     // Displaying selected option in its input field
     Object.entries(filters).forEach(([key,value]) => {
-        let optgroup = d3.select(`.${key}_options`);
-        optgroup.html("");
-        newOption = optgroup.append('option');
-        newOption.text(value);
-
+        let optgroup = d3.select(`.${key}_options`)
+                         .html("");
+        newOption = optgroup.append('option')
+                            .text(value);
     });
 };
 
@@ -207,8 +200,6 @@ function updateFilters() {
     var changedElement = d3.select(this).select('select');
     var elementValue = changedElement.property('value');
     var filterId = changedElement.attr('id');
-
-    //console.log(changedElement);
 
     // If a filter value was entered add that filterId and value to filters array.
     // Otherwise clear that filter from filters array.
@@ -240,6 +231,7 @@ function filterTable() {
         // Rebuild the table using filtered data
         buildTable(filteredData);
 
+        // Update the dropdown values with filtered data
         updateDropdown(filteredData);
 
     });
