@@ -1,4 +1,4 @@
-# JavaScript and DOM Manipulation
+# _JavaScript and DOM Manipulation_
 
 https://latha-g.github.io/Javascript-Challenge/
 
@@ -9,7 +9,7 @@ https://latha-g.github.io/Javascript-Challenge/
   1. City - Titlecase
   2. State & Country - Uppercase
   3. Shape - Capitalize
-  4. Comments - Replace unnecessary strings.
+  4. Comments - Remove unnecessary strings.
 
 * Create a basic HTML web page .
 
@@ -22,10 +22,10 @@ https://latha-g.github.io/Javascript-Challenge/
 ### 2. Bonus : Multiple Search Categories
 
 * Create five `input` tags (all done in Javascript)
-  1. `date/time`
-  2. `city`
-  3. `state`
-  4. `country`
+  1. `country`
+  2. `state`
+  3. `city`
+  4. `date/time`
   5. `shape`
 
 * Used 'keyup' instead of change so that data will be filtered as you type
@@ -44,7 +44,7 @@ https://latha-g.github.io/Javascript-Challenge/
 
 - - -
 
-## Background
+## _Background_
 
 WAKE UP SHEEPLE! The extra-terrestrial menace has come to Earth and we here at `ALIENS-R-REAL` have collected all of the eye-witness reports we could to prove it! All we need to do now is put this information online for the world to see and then the matter will finally be put to rest.
 
