@@ -2,8 +2,6 @@
 
 var sightingsData = data; // from data.js/*
 
-/* ------------------------------------------------------ */
-
 // Clean up data
 transformData(sightingsData);
 
@@ -50,7 +48,7 @@ function transformData(data){
 
         Object.entries(sighting).forEach( ( [key,value] ) => {
     
-            if (key == 'state' || key == 'country') {
+            if (key == 'country' || key == 'state') {
                 sighting[key] = value.toUpperCase();
             }
             else if (key == 'city'){
@@ -126,30 +124,29 @@ function createDropdown(data) {
 
         let ul = d3.select("#filters");
 
-        // Create a new li and assign attributes to it
         let newLi = ul.append('li').attr('class', 'filter list-group-item');
 
-        // Creating a new label and assigning attributes to it 
         let newLabel = newLi.append('label')
                             .text("Enter a " + capitalize(key))
                             .attr('for', key);
 
-        // Creating a new input and assigning attributes to it
         let newSelect = newLi.append('select')
                              .attr('class', 'form-control')
                              .attr('id', key)
-                             .attr('type', 'text');
+                             .attr('type', 'text')
+                             .text("Choose a " + capitalize(key));
+                             
 
-        // Adding a 'optgroup' to wrap the dropdown options(to apply styles)
+        // Appending an 'optgroup' to wrap the dropdown options
         let newOptgroup = newSelect.append('optgroup')
                                    .attr('class', `${key}_options`);
 
-        // Creating a dropdown menu
+        // Start of dropdown menu
         let newOption = newOptgroup.append('option')
                                    .attr('value', "")
                                    .text("Choose a " + capitalize(key));
         
-        // Lopping thru the distinct values of each key and adding them to dropdown menu
+        // Lopping thru distinct values of each key and adding them to dropdown menu
         values.forEach(value => {
             newOption = newOptgroup.append('option')
                                    .attr('value', value)
@@ -166,25 +163,27 @@ function updateDropdown(data) {
     findDistinct(data);
 
     Object.entries(distinctData).forEach( ([key,values]) => {
-        
+        // Clearing the previous dropdown options
         let optGroup = d3.select(`.${key}_options`)
                          .html("");
-
+        
+        // Start of new dropdown menu
         let newOption = optGroup.append('option')
                                 .attr('value', "")
                                 .text("Choose a " + capitalize(key));
-
+        
+        // Lopping thru distinct values of each key and adding them to dropdown menu
         values.forEach(value => {
             newOption = optGroup.append('option')
-                                .attr('value', value)
-                                .text(value);   
+                                    .attr('value', value)
+                                    .text(value);   
         });
     });
 
-    // Displaying selected option in its input field
+    // Displaying selected filter in its input field
     Object.entries(filters).forEach(([key,value]) => {
-        let optgroup = d3.select(`.${key}_options`)
-                         .html("");
+        optgroup = d3.select(`.${key}_options`)
+                     .html("");
         newOption = optgroup.append('option')
                             .text(value);
     });
@@ -201,8 +200,6 @@ function updateFilters() {
     var elementValue = changedElement.property('value');
     var filterId = changedElement.attr('id');
 
-    //console.log(changedElement);
-
     // If a filter value was entered add that filterId and value to filters array.
     // Otherwise clear that filter from filters array.
     if (elementValue) {
@@ -211,8 +208,8 @@ function updateFilters() {
     else {
         delete filters[filterId];
     }
-    console.log('\nFilters applied:');
 
+    console.log('\nFilters applied:');
     Object.entries(filters).forEach(([key,value]) => {
         console.log(capitalize(key) + ":" + value);
     });
