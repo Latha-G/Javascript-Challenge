@@ -1,6 +1,13 @@
 var sightingsData = data; // from data.js
 
-console.log(sightingsData);
+// Build the table using original data when page loads
+buildTable(sightingsData);
+
+// Add input fields to make the selection
+addInput();
+
+// Attach an event listener for changes in any filter
+d3.selectAll('.filter').on('keyup', updateFilters)
 
 /* ------------------------------------------------------ */
 
@@ -21,30 +28,40 @@ function buildTable(data){
             newtd.text(value);
 
         });
-    });   
+    });
+
+console.log(sightingsData);
 }
 
 /* ------------------------------------------------------ */
 
-function addInput(key) {
+function addInput() {
 
-    var ul = d3.select("#filters");
+    // keys to add Input-fields
+    var keys = ['country', 'state', 'city', 'date', 'shape'];    
+    
+    keys.forEach(key => {
 
-    var newLi = ul.append('li');
-    // Create a new li and assign attributes to it
-    newLi.attr('class', 'filter list-group-item');
+        var ul = d3.select("#filters");
 
-    var newLabel = newLi.append('label');
-    // Creating a new label and assigning attributes to it 
-    newLabel.text("Enter a "+ key.charAt(0).toUpperCase() + key.slice(1));
-    newLabel.attr('for', key);
+        var newLi = ul.append('li');
+        // Create a new li and assign attributes to it
+        newLi.attr('class', 'filter list-group-item');
+    
+        var newLabel = newLi.append('label');
+        // Creating a new label and assigning attributes to it 
+        newLabel.text("Enter a "+ key.charAt(0).toUpperCase() + key.slice(1));
+        newLabel.attr('for', key);
+    
+        // Creating a new input and assigning attributes to it
+        newInput = newLi.append('input')
+        newInput.attr('class', "form-control");
+        newInput.attr('id', key);
+        newInput.attr('type', 'text');
+        newInput.attr('placeholder', sightingsData[1][key]);
 
-    // Creating a new input and assigning attributes to it
-    newInput = newLi.append('input')
-    newInput.attr('class', "form-control");
-    newInput.attr('id', key);
-    newInput.attr('type', 'text');
-    newInput.attr('placeholder', sightingsData[1][key]);
+    });
+
 };
 
 /* ------------------------------------------------------ */
@@ -92,13 +109,3 @@ function filterTable() {
 };
 
 /* ------------------------------------------------------ */
-
-// Build the table using original data when page loads
-buildTable(sightingsData);
-
-// keys to add Input-fields
-var keys = ['country', 'state', 'city', 'date', 'shape'];
-keys.forEach(key => addInput(key));
-
-// Attach an event listener for changes in any filter
-d3.selectAll('.filter').on('keyup', updateFilters)
